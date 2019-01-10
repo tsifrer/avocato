@@ -1,8 +1,5 @@
 language: python
 python: 3.6
-#     - 3.4
-#     - 3.5
-#     - 3.6
 matrix:
   include:
     - python: 3.7
@@ -30,15 +27,68 @@ matrix:
         - pip install -r requirements/peewee.txt
       script:
         - py.test tests/vendors/test_peewee.py
+    - python: 3.6
+      env: TEST_SUITE=avocato
+      script:
+        - pip install -r requirements/test.txt
+        - py.test tests/avocato/
+    - python: 3.6
+      env: TEST_SUITE=django
+      install:
+        - pip install -r requirements/test.txt
+        - pip install -r requirements/django.txt
+      script:
+        - py.test tests/vendors/test_django.py
+    - python: 3.6
+      env: TEST_SUITE=peewee
+      install:
+        - pip install -r requirements/test.txt
+        - pip install -r requirements/peewee.txt
+      script:
+        - py.test tests/vendors/test_peewee.py
+    - python: 3.5
+      env: TEST_SUITE=avocato
+      script:
+        - pip install -r requirements/test.txt
+        - py.test tests/avocato/
+    - python: 3.5
+      env: TEST_SUITE=django
+      install:
+        - pip install -r requirements/test.txt
+        - pip install -r requirements/django.txt
+      script:
+        - py.test tests/vendors/test_django.py
+    - python: 3.5
+      env: TEST_SUITE=peewee
+      install:
+        - pip install -r requirements/test.txt
+        - pip install -r requirements/peewee.txt
+      script:
+        - py.test tests/vendors/test_peewee.py
+    - python: 3.4
+      env: TEST_SUITE=avocato
+      script:
+        - pip install -r requirements/test.txt
+        - py.test tests/avocato/
+    - python: 3.4
+      env: TEST_SUITE=django
+      install:
+        - pip install -r requirements/test.txt
+        - pip install -r requirements/django.txt
+      script:
+        - py.test tests/vendors/test_django.py
+    - python: 3.4
+      env: TEST_SUITE=peewee
+      install:
+        - pip install -r requirements/test.txt
+        - pip install -r requirements/peewee.txt
+      script:
+        - py.test tests/vendors/test_peewee.py
 
 install: 
     - pip install -r requirements/test.txt
 before_script:
     - flake8 .
-# script:
-#     - py.test --cov=./
-# after_success:
-#   - codecov
 branches:
   only:
     - master
