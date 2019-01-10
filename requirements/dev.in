@@ -1,15 +1,12 @@
+django
 flake8
 flake8-bugbear
 flake8-import-order
 flake8-quotes
+peewee
 pip-tools
+psycopg2-binary
 pytest
 pytest-mock
-
-
-# These should be installed only when used.
-peewee
-psycopg2-binary
-django
 sphinx
 sphinx_rtd_theme
