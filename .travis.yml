@@ -6,17 +6,30 @@ python: 3.6
 matrix:
   include:
     - python: 3.7
+      env: TEST_SUITE=avocato
       dist: xenial
       sudo: required
       script:
-        - py.test /tests/avocato/
+        - pip install -r requirements/test.txt
+        - py.test tests/avocato/
     - python: 3.7
+      env: TEST_SUITE=django
       dist: xenial
       sudo: required
       install:
+        - pip install -r requirements/test.txt
         - pip install -r requirements/django.txt
       script:
-        - py.test /tests/vendors/test_django.py
+        - py.test tests/vendors/test_django.py
+    - python: 3.7
+      env: TEST_SUITE=peewee
+      dist: xenial
+      sudo: required
+      install:
+        - pip install -r requirements/test.txt
+        - pip install -r requirements/peewee.txt
+      script:
+        - py.test tests/vendors/test_peewee.py
 
 install: 
     - pip install -r requirements/test.txt
