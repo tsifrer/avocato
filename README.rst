@@ -17,6 +17,11 @@ Installation
 
     $ pip install avocato
 
+Documentation
+=============
+
+Find documentation at `avocato.rtfd.io`_
+
 Serializer Example
 ==================
 
@@ -50,3 +55,4 @@ Serializer Example
 
 
 .. _serpy: https://github.com/clarkduvall/serpy
+.. _avocato.rtfd.io: https://avocato.rtfd.io
