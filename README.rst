@@ -2,6 +2,17 @@
 avocato: simple and fast object serialization
 *********************************************
 
+.. container:: badges
+
+    .. image:: https://travis-ci.org/tsifrer/avocato.svg?branch=master
+        :target: https://travis-ci.org/tsifrer/avocato?branch=master
+        :alt: Travis-CI
+
+    .. image:: https://readthedocs.org/projects/avocato/badge/?version=latest
+        :target: https://avocato.rtfd.io
+        :alt: Documentation Status
+
+
 **avocato** is a simple and fast ORM/framework-agnostic object serialization library for
 converting complex objects to and from simple Python datatypes.
 

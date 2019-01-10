@@ -195,7 +195,7 @@ def test_max_length_validator_is_added_to_fields():
 
 def test_one_of_validator_is_added_to_fields():
     class TestModel(models.Model):
-        foo = models.CharField(choices=(('foo', 'FOO'), ('bar', 'BAR')))
+        foo = models.CharField(choices=[('foo', 'FOO'), ('bar', 'BAR')])
 
     class TestSerializer(DjangoModelSerializer):
         class Meta:
