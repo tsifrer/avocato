@@ -66,6 +66,8 @@ matrix:
       script:
         - py.test tests/vendors/test_peewee.py
 
+install: 
+    - pip install -r requirements/test.txt
 before_script:
     - flake8 .
 branches:
