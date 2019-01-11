@@ -4,6 +4,10 @@ avocato: simple and fast object serialization
 
 .. container:: badges
 
+    .. image:: https://img.shields.io/pypi/v/avocato.svg
+        :target: https://pypi.org/project/avocato/
+        :alt: Latest Version
+
     .. image:: https://travis-ci.org/tsifrer/avocato.svg?branch=master
         :target: https://travis-ci.org/tsifrer/avocato?branch=master
         :alt: Travis-CI
