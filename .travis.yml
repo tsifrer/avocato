@@ -3,6 +3,15 @@ python: 3.6
 matrix:
   include:
     - python: 3.7
+      env: TEST_SUITE=coverage
+      dist: xenial
+      sudo: required
+      script:
+        - pip install -r requirements/test.txt
+        - pip install -r requirements/django.txt
+        - pip install -r requirements/peewee.txt
+        - py.test --cov=./
+    - python: 3.7
       env: TEST_SUITE=avocato
       dist: xenial
       sudo: required

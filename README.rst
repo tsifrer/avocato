@@ -12,6 +12,10 @@ avocato: simple and fast object serialization
         :target: https://avocato.rtfd.io
         :alt: Documentation Status
 
+    .. image:: https://codecov.io/gh/tsifrer/avocato/branch/master/graph/badge.svg
+        :target: https://codecov.io/gh/tsifrer/avocato
+        :alt: Code Coverage
+
 
 **avocato** is a simple and fast ORM/framework-agnostic object serialization library for
 converting complex objects to and from simple Python datatypes.
