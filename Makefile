@@ -1,3 +1,4 @@
+.PHONY: docs
 test:
 	py.test -v -s -x $(ARGS)
 
@@ -10,5 +11,12 @@ cov-html:
 remove-pyc:
 	find . -name "*.pyc" -delete
 
-bm-simple:
-	python -m benchmark.bm_simple
+publish:
+	pip install 'twine>=1.12.1'
+	python setup.py sdist bdist_wheel
+	twine upload dist/*
+	rm -rf build dist .egg avocato.egg-info
+
+docs:
+	cd docs && make html
+	@echo "\033[95m\n\nBuild successful! View the docs homepage at docs/_build/html/index.html.\n\033[0m"

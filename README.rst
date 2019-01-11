@@ -33,8 +33,8 @@ Documentation
 
 Find documentation at `avocato.rtfd.io`_
 
-Serializer Example
-==================
+Example
+=======
 
 .. code-block:: python
 
