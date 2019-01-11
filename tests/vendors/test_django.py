@@ -195,7 +195,7 @@ def test_max_length_validator_is_added_to_fields():
 
 def test_one_of_validator_is_added_to_fields():
     class TestModel(models.Model):
-        foo = models.CharField(choices=[('foo', 'FOO'), ('bar', 'BAR')])
+        foo = models.CharField(choices=(('foo', 'FOO'), ('bar', 'BAR')))
 
     class TestSerializer(DjangoModelSerializer):
         class Meta:
@@ -208,7 +208,8 @@ def test_one_of_validator_is_added_to_fields():
     validator = [v for v in validators if isinstance(v, OneOf)]
     assert len(validator) == 1
     validator = validator[0]
-    assert validator.choices == ['foo', 'bar']
+    assert 'foo' in validator.choices
+    assert 'bar' in validator.choices
 
 
 def test_create_object_in_db(mocker, django_test_models):
