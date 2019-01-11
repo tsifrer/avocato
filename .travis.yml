@@ -11,6 +11,8 @@ matrix:
         - pip install -r requirements/django.txt
         - pip install -r requirements/peewee.txt
         - py.test --cov=./
+      after_success:
+        - codecov
     - python: 3.7
       env: TEST_SUITE=avocato
       dist: xenial
