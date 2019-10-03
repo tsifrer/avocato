@@ -32,23 +32,21 @@ class Field(object):
         required=True,
         validators=None,
         call=False,
-        is_create_field=True,
-        is_update_field=True,
+        default=None,
     ):
         self.attr = attr
         self.label = label
         self.required = required
         self.call = call
-        self.is_create_field = is_create_field
-        self.is_update_field = is_update_field
         self.validators = validators or []
+        self.default = default
 
         if required:
             self.validators.insert(0, avocato_validators.Required())
             if self.accepted_types:
                 self.validators.insert(1, avocato_validators.OneOfType(choices=self.accepted_types))
 
-    def to_value(self, value):
+    def to_json_value(self, value):
         """Transform the serialized value.
 
         Override this method to clean and validate values serialized by this field.
@@ -77,7 +75,7 @@ class StrField(Field):
         present in choices and will be run when ``is_valid`` method on the serializer is called.
     """
     accepted_types = (str,)
-    to_value = staticmethod(str)
+    to_json_value = staticmethod(str)
 
     def __init__(self, **kwargs):
         self.max_length = kwargs.pop('max_length', None)
@@ -104,7 +102,7 @@ class EmailField(StrField):
     """Converts input value to email.
     """
     accepted_types = (str,)
-    to_value = staticmethod(str)
+    to_json_value = staticmethod(str)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -115,21 +113,21 @@ class IntField(Field):
     """Converts input value to integer.
     """
     accepted_types = (int,)
-    to_value = staticmethod(int)
+    to_json_value = staticmethod(int)
 
 
 class FloatField(Field):
     """Converts input value to float.
     """
     accepted_types = (float,)
-    to_value = staticmethod(float)
+    to_json_value = staticmethod(float)
 
 
 class BoolField(Field):
     """Converts input value to bool.
     """
     accepted_types = (bool,)
-    to_value = staticmethod(bool)
+    to_json_value = staticmethod(bool)
 
 
 class DecimalField(Field):
@@ -138,7 +136,7 @@ class DecimalField(Field):
     accepted_types = (Decimal,)
 
     @staticmethod
-    def to_value(value):
+    def to_json_value(value):
         if value is None:
             return None
         return str(value)
@@ -150,7 +148,7 @@ class DateTimeField(Field):
     accepted_types = (datetime,)
 
     @staticmethod
-    def to_value(value):
+    def to_json_value(value):
         if value is None:
             return None
         return value.isoformat()
@@ -160,7 +158,7 @@ class DictField(Field):
     """Converts input value to dict.
     """
     accepted_types = (dict,)
-    to_value = staticmethod(dict)
+    to_json_value = staticmethod(dict)
 
 
 class MethodField(Field):
@@ -169,7 +167,7 @@ class MethodField(Field):
     getter_takes_serializer = True
 
     def __init__(self, method=None, **kwargs):
-        super(MethodField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.method = method
 
     def as_getter(self, serializer_field_name, serializer_cls):
