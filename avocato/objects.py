@@ -16,7 +16,7 @@ def _compile_fields(field, name, object_cls):
         getter = operator.itemgetter(field.attr or name)
 
     # Set the field name to a supplied label; defaults to the attribute name.
-    field._name = name
+    field.name = name
     field._getter = getter
     return field
 
@@ -77,7 +77,7 @@ class AvocatoObjectMeta(type):
         real_cls._meta_model = meta_model
         all_fields = compiled_fields + base_classes_fields
         real_cls._fields = all_fields
-        real_cls._field_names = [field._name for field in all_fields]
+        real_cls._field_names = [field.name for field in all_fields]
         # real_cls.create_fields = [field for field in all_fields if field.is_create_field]
         # real_cls.update_fields = [field for field in all_fields if field.is_update_field]
         return real_cls
@@ -151,12 +151,12 @@ class AvocatoObject(Field, metaclass=AvocatoObjectMeta):
                     pass
 
             if value is None and self.instance is not None:
-                value = getattr(self.instance, field._name, None)
+                value = getattr(self.instance, field.name, None)
 
             if value is None:
                 value = field.default
 
-            setattr(self.instance, field._name, value)
+            setattr(self.instance, field.name, value)
 
     # def _serialize(self, instance, fields):
     #     v = {}
@@ -243,26 +243,26 @@ class AvocatoObject(Field, metaclass=AvocatoObjectMeta):
     def _validate(self):
         errors = defaultdict(list)
         for field in self._fields:
-            field_value = getattr(self.instance, field._name)
+            field_value = getattr(self.instance, field.name)
             # Loop trough all validators on field and executed them
             if field.validators:
                 for validator in field.validators:
                     try:
                         validator(field_value)
                     except AvocatoValidationError as e:
-                        errors[field._name] += e.messages
+                        errors[field.name] += e.messages
                         break
 
             # Call validate_<field> if it exist to get field specific errors
             try:
-                validate_func = getattr(self, "validate_{0}".format(field._name))
+                validate_func = getattr(self, "validate_{0}".format(field.name))
             except AttributeError:
                 pass
             else:
                 try:
                     validate_func(field_value)
                 except AvocatoValidationError as e:
-                    errors[field._name] += e.messages
+                    errors[field.name] += e.messages
 
         # # Call validate to get generic serializer errors
         # try:
@@ -295,7 +295,7 @@ class AvocatoObject(Field, metaclass=AvocatoObjectMeta):
             raise AvocatoError("Data is invalid or `.is_valid()` has not been run")
         data = {}
         for field in self._fields:
-            data[field.label or field._name] = getattr(self.instance, field._name)
+            data[field.label or field.name] = getattr(self.instance, field.name)
             # if field.getter_takes_serializer:
             #     result = field._getter(self, instance)
             # else:
