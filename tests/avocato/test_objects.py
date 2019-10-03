@@ -1,7 +1,7 @@
 import pytest
 
 from avocato.exceptions import AvocatoError
-from avocato.fields import IntField, StrField
+from avocato.fields import DictField, IntField, ListField, StrField
 from avocato.objects import AvocatoObject, Object
 
 
@@ -107,3 +107,25 @@ def test_object_to_dict_respects_field_label():
     obj = FooObj({"foo": 1337})
     assert obj.is_valid()
     assert obj.to_dict() == {"This is a random label": 1337}
+
+
+def test_object_with_dict_field_default_is_immutable_between_objects():
+    class FooObj(AvocatoObject):
+        foo = DictField()
+
+    obj1 = FooObj()
+    obj2 = FooObj()
+    obj1.foo["foo"] = "bar"
+    assert obj1.foo == {"foo": "bar"}
+    assert obj2.foo == {}
+
+
+def test_object_with_list_field_default_is_immutable_between_objects():
+    class FooObj(AvocatoObject):
+        foo = ListField()
+
+    obj1 = FooObj()
+    obj2 = FooObj()
+    obj1.foo.append("foobar")
+    assert obj1.foo == ["foobar"]
+    assert obj2.foo == []

@@ -22,6 +22,7 @@ class Field(object):
     :param bool call: Whether the field is used to populate the instance when updating an object
         via ``to_instance`` method on the serializer.
     """
+
     getter_takes_serializer = False
     accepted_types = None
 
@@ -39,12 +40,25 @@ class Field(object):
         self.required = required
         self.call = call
         self.validators = validators or []
-        self.default = default
+        self._default = default
 
         if required:
             self.validators.insert(0, avocato_validators.Required())
             if self.accepted_types:
-                self.validators.insert(1, avocato_validators.OneOfType(choices=self.accepted_types))
+                self.validators.insert(
+                    1, avocato_validators.OneOfType(choices=self.accepted_types)
+                )
+
+    @property
+    def default(self):
+        """Function that retuns default value. If the default is mutable object, override
+        this function and return default mutable object
+        """
+        return self._default
+
+    @staticmethod
+    def to_value(value):
+        return value
 
     def to_json_value(self, value):
         """Transform the serialized value.
@@ -74,13 +88,14 @@ class StrField(Field):
     :param list choices: Available choices. If present, adds a validator that checks if value is
         present in choices and will be run when ``is_valid`` method on the serializer is called.
     """
+
     accepted_types = (str,)
     to_json_value = staticmethod(str)
 
     def __init__(self, **kwargs):
-        self.max_length = kwargs.pop('max_length', None)
-        self.min_length = kwargs.pop('min_length', None)
-        self.choices = kwargs.pop('choices', None)
+        self.max_length = kwargs.pop("max_length", None)
+        self.min_length = kwargs.pop("min_length", None)
+        self.choices = kwargs.pop("choices", None)
         super().__init__(**kwargs)
 
         if self.max_length is not None:
@@ -93,14 +108,13 @@ class StrField(Field):
             )
 
         if self.choices is not None:
-            self.validators.append(
-                avocato_validators.OneOf(choices=self.choices)
-            )
+            self.validators.append(avocato_validators.OneOf(choices=self.choices))
 
 
 class EmailField(StrField):
     """Converts input value to email.
     """
+
     accepted_types = (str,)
     to_json_value = staticmethod(str)
 
@@ -112,6 +126,7 @@ class EmailField(StrField):
 class IntField(Field):
     """Converts input value to integer.
     """
+
     accepted_types = (int,)
     to_json_value = staticmethod(int)
 
@@ -119,6 +134,7 @@ class IntField(Field):
 class FloatField(Field):
     """Converts input value to float.
     """
+
     accepted_types = (float,)
     to_json_value = staticmethod(float)
 
@@ -126,6 +142,7 @@ class FloatField(Field):
 class BoolField(Field):
     """Converts input value to bool.
     """
+
     accepted_types = (bool,)
     to_json_value = staticmethod(bool)
 
@@ -133,6 +150,7 @@ class BoolField(Field):
 class DecimalField(Field):
     """Converts input value to string, so it accurately shows decimal numbers.
     """
+
     accepted_types = (Decimal,)
 
     @staticmethod
@@ -145,6 +163,7 @@ class DecimalField(Field):
 class DateTimeField(Field):
     """Converts input value to ISO format date.
     """
+
     accepted_types = (datetime,)
 
     @staticmethod
@@ -157,13 +176,25 @@ class DateTimeField(Field):
 class DictField(Field):
     """Converts input value to dict.
     """
+
     accepted_types = (dict,)
     to_json_value = staticmethod(dict)
+
+    @property
+    def default(self):
+        return {}
+
+
+class ListField(Field):
+    @property
+    def default(self):
+        return []
 
 
 class MethodField(Field):
     """Calls a method on the :class:`Serializer` to get the value.
     """
+
     getter_takes_serializer = True
 
     def __init__(self, method=None, **kwargs):
@@ -173,5 +204,5 @@ class MethodField(Field):
     def as_getter(self, serializer_field_name, serializer_cls):
         method_name = self.method
         if method_name is None:
-            method_name = 'get_{0}'.format(serializer_field_name)
+            method_name = "get_{0}".format(serializer_field_name)
         return getattr(serializer_cls, method_name)
