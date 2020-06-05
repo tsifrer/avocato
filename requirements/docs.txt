@@ -4,7 +4,8 @@
 #
 #    pip-compile --output-file docs.txt docs.in
 #
-django==2.1.5
-peewee==3.8.1
-psycopg2-binary==2.7.6.1
+django==2.2.13            # via -r docs.in
+peewee==3.8.1             # via -r docs.in
+psycopg2-binary==2.7.6.1  # via -r docs.in
 pytz==2018.9              # via django
+sqlparse==0.3.1           # via django

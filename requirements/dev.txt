@@ -11,12 +11,12 @@ babel==2.6.0              # via sphinx
 certifi==2018.11.29       # via requests
 chardet==3.0.4            # via requests
 click==7.0                # via pip-tools
-django==2.1.5
+django==2.2.13            # via -r dev.in
 docutils==0.14            # via sphinx
-flake8-bugbear==18.8.0
-flake8-import-order==0.18
-flake8-quotes==1.0.0
-flake8==3.6.0
+flake8-bugbear==18.8.0    # via -r dev.in
+flake8-import-order==0.18  # via -r dev.in
+flake8-quotes==1.0.0      # via -r dev.in
+flake8==3.6.0             # via -r dev.in, flake8-bugbear, flake8-quotes
 idna==2.8                 # via requests
 imagesize==1.1.0          # via sphinx
 jinja2==2.10              # via sphinx
@@ -24,22 +24,23 @@ markupsafe==1.1.0         # via jinja2
 mccabe==0.6.1             # via flake8
 more-itertools==5.0.0     # via pytest
 packaging==18.0           # via sphinx
-peewee==3.8.1
-pip-tools==3.2.0
+peewee==3.8.1             # via -r dev.in
+pip-tools==3.2.0          # via -r dev.in
 pluggy==0.8.1             # via pytest
-psycopg2-binary==2.7.6.1
+psycopg2-binary==2.7.6.1  # via -r dev.in
 py==1.7.0                 # via pytest
 pycodestyle==2.4.0        # via flake8, flake8-import-order
 pyflakes==2.0.0           # via flake8
 pygments==2.3.1           # via sphinx
 pyparsing==2.3.0          # via packaging
-pytest-mock==1.10.0
-pytest==4.1.0
+pytest-mock==1.10.0       # via -r dev.in
+pytest==4.1.0             # via -r dev.in, pytest-mock
 pytz==2018.9              # via babel, django
 requests==2.21.0          # via sphinx
 six==1.12.0               # via more-itertools, packaging, pip-tools, pytest, sphinx
 snowballstemmer==1.2.1    # via sphinx
-sphinx-rtd-theme==0.4.2
-sphinx==1.8.3
+sphinx-rtd-theme==0.4.2   # via -r dev.in
+sphinx==1.8.3             # via -r dev.in, sphinx-rtd-theme
 sphinxcontrib-websupport==1.1.0  # via sphinx
+sqlparse==0.3.1           # via django
 urllib3==1.24.1           # via requests

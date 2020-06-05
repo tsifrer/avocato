@@ -4,6 +4,7 @@
 #
 #    pip-compile --output-file django.txt django.in
 #
-django==2.1.5
-psycopg2-binary==2.7.6.1
+django==2.2.13            # via -r django.in
+psycopg2-binary==2.7.6.1  # via -r django.in
 pytz==2018.9              # via django
+sqlparse==0.3.1           # via django
